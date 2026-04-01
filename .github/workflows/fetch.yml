@@ -2,7 +2,7 @@ name: Fetch XTrend Articles
 
 on:
   schedule:
-    - cron: "0 1 * * *"  # 日本時間10:00頃（UTC1:00）
+    - cron: "0 0 * * *"  # 日本時間9:00頃（UTC0:00）
   workflow_dispatch:     # 手動実行も可能
 
 jobs:
