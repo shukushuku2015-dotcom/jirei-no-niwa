@@ -1,0 +1,34 @@
+name: Fetch XTrend Articles
+
+on:
+  schedule:
+    - cron: "0 1 * * *"  # 日本時間10:00頃（UTC1:00）
+  workflow_dispatch:     # 手動実行も可能
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run fetch_all
+        run: |
+          python fetch_all.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add cases.db
+          git commit -m "Auto update cases.db" || echo "No changes"
+          git push
